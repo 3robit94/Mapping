@@ -30,6 +30,6 @@ public class HelloMap extends Activity{
 
         mv.setBuiltInZoomControls(true); //Gives zoom controls
         mv.getController().setZoom(14); //Sets zoom level
-        mv.getController().setCenter(new GeoPoint(51.05,-0.72)); //Sets the position of the map
+        mv.getController().setCenter(new GeoPoint(40.1,22.5)); //Sets the position of the map
     }
 }
