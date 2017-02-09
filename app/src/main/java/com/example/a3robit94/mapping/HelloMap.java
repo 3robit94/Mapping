@@ -19,12 +19,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.content.Intent;
 
-public class HelloMap extends Activity implements View.OnClickListener {
+public class HelloMap extends Activity{
     //creates an activity through the use of extends
 
     MapView mv;
 
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         //OnCreate runs the code when program is loaded
 
         super.onCreate(savedInstanceState);
@@ -35,22 +35,11 @@ public class HelloMap extends Activity implements View.OnClickListener {
         Configuration.getInstance().load
                 (this, PreferenceManager.getDefaultSharedPreferences(this));
 
-        mv = (MapView)findViewById(R.id.map1); //finds the mapview by ID
+        mv = (MapView) findViewById(R.id.map1); //finds the mapview by ID
 
         mv.setBuiltInZoomControls(true); //Gives zoom controls
         mv.getController().setZoom(14); //Sets zoom level
-        mv.getController().setCenter(new GeoPoint(40.1,22.5)); //Sets the position of the map via longtitude/latitude
-
-        Button b = (Button)findViewById(R.id.btn1);
-        b.setOnClickListener(this);
-    }
-
-    public void onClick(View MapView){
-        EditText longitudeEditText = (EditText) findViewById(R.id.longitudeEditText);
-        EditText latitudeEditText = (EditText) findViewById(R.id.latitudeEditText);
-        double longitude = Double.parseDouble(longitudeEditText.getText().toString());
-        double latitude = Double.parseDouble(latitudeEditText.getText().toString());
-        mv.getController().setCenter(new GeoPoint(latitude,longitude));
+        mv.getController().setCenter(new GeoPoint(40.1, 22.5)); //Sets the position of the map via longtitude/latitude
     }
 
     public boolean onCreateOptionsMenu(Menu menu)           //Loads in xml layout file and generates a menu from it
@@ -66,6 +55,12 @@ public class HelloMap extends Activity implements View.OnClickListener {
         {
             Intent intent = new Intent(this,MapChooseActivity.class);       //message from main activity to launch the second activity
             startActivityForResult(intent,0);
+            return true;
+        }
+        if(item.getItemId() == R.id.setlocation)
+        {
+            Intent intent = new Intent(this,MapChooseCordinates.class);       //message from main activity to launch the second activity
+            startActivityForResult(intent,1);
             return true;
         }
         return false;
@@ -90,6 +85,13 @@ public class HelloMap extends Activity implements View.OnClickListener {
                     mv.getTileProvider().setTileSource(TileSourceFactory.MAPNIK);
                 }
             }
+        }
+
+        if(requestCode==1){
+            Bundle extras=intent.getExtras();
+            double longitude = extras.getDouble("longitude");
+            double latitude = extras.getDouble("latitude");
+            mv.getController().setCenter(new GeoPoint(latitude, longitude));
         }
     }
 }

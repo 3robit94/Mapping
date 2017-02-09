@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.widget.Button;
 import android.view.View;
+import android.widget.EditText;
+
+import org.osmdroid.util.GeoPoint;
 
 public class MapChooseActivity extends Activity implements View.OnClickListener {
 
