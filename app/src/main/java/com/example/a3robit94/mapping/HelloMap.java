@@ -51,9 +51,9 @@ public class HelloMap extends Activity{
 
     public boolean onOptionsItemSelected(MenuItem item)     //will run when user choose a menu entry
     {
-        if(item.getItemId() == R.id.choosemap)              //getting id of menu item (This being R.id.choosemap)
+        if(item.getItemId() == R.id.choosemaplist)              //getting id of menu item (This being R.id.choosemap)
         {
-            Intent intent = new Intent(this,MapChooseActivity.class);       //message from main activity to launch the second activity
+            Intent intent = new Intent(this,ChooseListActivity.class);       //message from main activity to launch the second activity
             startActivityForResult(intent,0);
             return true;
         }
