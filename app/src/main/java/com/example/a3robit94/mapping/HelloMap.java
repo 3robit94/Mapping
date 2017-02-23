@@ -1,6 +1,7 @@
 package com.example.a3robit94.mapping;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
@@ -18,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.content.Intent;
+
+import java.util.Map;
 
 public class HelloMap extends Activity{
     //creates an activity through the use of extends
@@ -63,7 +66,14 @@ public class HelloMap extends Activity{
             startActivityForResult(intent,1);
             return true;
         }
+        if(item.getItemId() == R.id.chooseprefs){
+            Intent intent = new Intent(this, MapPrefsActivity.class);
+            startActivity(intent);
+            return true;
+        }
         return false;
+
+
     }
 
     protected void onActivityResult(int requestCode,int resultCode,Intent intent)
@@ -93,6 +103,23 @@ public class HelloMap extends Activity{
             double latitude = extras.getDouble("latitude");
             mv.getController().setCenter(new GeoPoint(latitude, longitude));
         }
+    }
+
+    public void onStart(){
+        super.onStart();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //Creates preference manager
+        double lat = Double.parseDouble(prefs.getString("lat", "50.9"));                                  //Takes in values from preferences.xml and converts to string
+        double lon = Double.parseDouble(prefs.getString("lon", "-1.4"));                                  //Takes in values from preferences.xml and converts to string
+        int zoom = Integer.parseInt(prefs.getString("Zoom", "14"));                                       //Takes in values from preferences.xml and converts to string
+        String mapTypeCode = prefs.getString("map", "NONE");                                              //Takes in values from preferences.xml and arrays.xml
+        if (mapTypeCode.equals("NM")){                                                                    //If it is set to the NM string in arrays.xml, change tilesource to normal map
+            mv.getTileProvider().setTileSource(TileSourceFactory.MAPNIK);
+        }
+        if (mapTypeCode.equals("CM")){                                                                    //If it is set to the NM string in arrays.xml, change tilesource to cycle map
+            mv.setTileSource(TileSourceFactory.CYCLEMAP);
+        }
+        mv.getController().setCenter(new GeoPoint(lat, lon));                                             //Set the geopoint to the appointed latitude and longitude
+        mv.getController().setZoom(zoom);                                                                 //Set the zoom level
     }
 }
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mapType">
+        <item>Normal Map</item>
+        <item>Cycle Map</item>
+    </string-array>
+    <string-array name="mapTypeCodes">
+        <item>NM</item>
+        <item>CM</item>
+    </string-array>
+</resources>
